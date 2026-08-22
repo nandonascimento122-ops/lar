@@ -1,321 +1,446 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Conversor Universal 60 - TODAS FUNCIONANDO - converterfoto.com.br</title>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Serviços Públicos Brasil - iOS Style</title>
 <style>
-:root{--bg:#fbfbfd;--card:#fff;--bd:#e4e4e7;--tx:#18181b;--mu:#71717a;--vi:#7c3aed}
-[data-theme=dark]{--bg:#09090b;--card:#18181b;--bd:#27272a;--tx:#fafafa;--mu:#a1a1aa;--vi:#8b5cf6}
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
-body{background:var(--bg);color:var(--tx);padding:12px}
-.header{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;display:flex;justify-content:space-between;align-items:center}
-.logo{width:40px;height:40px;background:var(--vi);color:#fff;border-radius:10px;display:grid;place-items:center;font-weight:800}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-@media(min-width:700px){.grid{grid-template-columns:1fr 1fr 1fr}}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;cursor:pointer}
-.card:hover{border-color:var(--vi)}
-.badge{font-size:9px;color:var(--mu);border:1px solid var(--bd);border-radius:999px;padding:2px 6px;background:var(--bg)}
-.panel{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-top:10px;display:none}
-input,textarea,select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px;margin-top:6px}
-.btn{background:var(--vi);color:#fff;border:0;border-radius:10px;padding:9px 14px;margin-top:6px;font-weight:700;cursor:pointer}
-.btn-sec{background:var(--card);color:var(--tx);border:1px solid var(--bd)}
-.theme{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:12px}
-</style></head><body>
-<div class="header"><div style="display:flex;gap:10px;align-items:center"><div class="logo">60</div><div><b>Conversor Universal 60</b><br><span style="font-size:10px;color:var(--mu)">converterfoto.com.br • <span id="cnt">60</span> ferramentas • TODAS FUNCIONANDO</span></div></div><div><button class="theme" onclick="toggleTheme()">Tema 🌙/☀️</button></div></div>
-<input id="busca" placeholder="Buscar entre 60..." oninput="filtrar()" style="margin-top:10px">
+:root {
+    --ios-bg: #f2f2f7;
+    --ios-card: #ffffff;
+    --ios-card-rgb: 255, 255, 255;
+    --ios-text: #000000;
+    --ios-subtext: #8e8e93;
+    --ios-blue: #007aff;
+    --ios-green: #34c759;
+    --ios-orange: #ff9500;
+    --ios-red: #ff3b30;
+    --ios-separator: #c6c6c8;
+    --ios-border-radius: 14px;
+}
+
+[data-theme="dark"] {
+    --ios-bg: #000000;
+    --ios-card: #1c1c1e;
+    --ios-card-rgb: 28, 28, 30;
+    --ios-text: #ffffff;
+    --ios-subtext: #98989f;
+    --ios-blue: #0a84ff;
+    --ios-green: #32d74b;
+    --ios-orange: #ff9f0a;
+    --ios-red: #ff453a;
+    --ios-separator: #38383a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--ios-bg);
+    color: var(--ios-text);
+    padding: 16px;
+    padding-bottom: 40px;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* iOS Header Style */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 4px;
+}
+
+.header-title h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.header-title span {
+    font-size: 13px;
+    color: var(--ios-subtext);
+    font-weight: 400;
+}
+
+.icon-btn {
+    background: rgba(var(--ios-card-rgb), 0.8);
+    border: 1px solid var(--ios-separator);
+    color: var(--ios-blue);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+}
+
+/* iOS Search Bar */
+.search-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    width: 100%;
+    background: var(--ios-card);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 12px 10px 36px;
+    color: var(--ios-text);
+    font-size: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.search-bar:focus {
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ios-subtext);
+    font-size: 14px;
+}
+
+/* iOS Grid Style */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+@media(min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.card {
+    background: var(--ios-card);
+    border-radius: var(--ios-border-radius);
+    padding: 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.card:active {
+    transform: scale(0.96);
+    opacity: 0.8;
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.card-icon {
+    font-size: 24px;
+}
+
+.card-badge {
+    font-size: 9px;
+    color: var(--ios-subtext);
+    background: var(--ios-bg);
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.card-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    line-height: 1.2;
+}
+
+/* iOS Fullscreen Sheet / Panel */
+.panel {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--ios-bg);
+    z-index: 100;
+    overflow-y: auto;
+    padding: 20px;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ios-separator);
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: var(--ios-blue);
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* iOS Form Inputs & Buttons */
+input, textarea, select {
+    width: 100%;
+    background: var(--ios-card);
+    color: var(--ios-text);
+    border: 1px solid var(--ios-separator);
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 8px;
+    font-size: 16px;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--ios-blue);
+}
+
+.btn {
+    background: var(--ios-blue);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:active {
+    opacity: 0.7;
+}
+
+.btn-sec {
+    background: var(--ios-card);
+    color: var(--ios-blue);
+    border: 1px solid var(--ios-blue);
+}
+
+.output-box {
+    margin-top: 12px;
+    background: var(--ios-card);
+    border: 1px solid var(--ios-separator);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.section-label {
+    font-size: 13px;
+    color: var(--ios-subtext);
+    margin: 14px 0 6px 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-title">
+        <h1>Serviços Brasil</h1>
+        <span>Órgãos & Consultas Públicas • <span id="cnt">0</span></span>
+    </div>
+    <button class="icon-btn" onclick="toggleTheme()" title="Alternar Tema">🌓</button>
+</div>
+
+<div class="search-container">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="busca" class="search-bar" placeholder="Buscar serviço público..." oninput="filtrar()">
+</div>
+
 <div class="grid" id="grid"></div>
-<div class="panel" id="panel"><div style="display:flex;justify-content:space-between"><b id="ptitle"></b><button class="theme" onclick="panel.style.display='none';grid.style.display='grid'">Voltar</button></div><div id="pbody" style="margin-top:10px"></div></div>
-<div style="margin-top:12px;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;text-align:center"><a href="https://omg10.com/4/11615388" target="_blank" class="btn" style="display:block;text-decoration:none">Ver oferta parceira - ajuda manter grátis</a></div>
+
+<div class="panel" id="panel">
+    <div class="panel-header">
+        <button class="back-btn" onclick="fecharPainel()">‹ Voltar</button>
+        <div class="panel-title" id="ptitle" style="font-size: 16px; font-weight: 600;"></div>
+        <div style="width: 50px;"></div>
+    </div>
+    <div id="pbody"></div>
+</div>
+
 <script>
-var isDark=false;function toggleTheme(){isDark=!isDark;document.documentElement.setAttribute('data-theme',isDark?'dark':'light');}
-var tools=[
-{id:"cpf",name:"CPF Valida/Gera",icon:"🪪",cat:"DOCS"},
-{id:"cnpj",name:"CNPJ BrasilAPI",icon:"🏢",cat:"DOCS"},
-{id:"cep",name:"CEP ViaCEP",icon:"📍",cat:"DOCS"},
-{id:"ddd",name:"DDD BrasilAPI",icon:"☎️",cat:"DOCS"},
-{id:"bancos",name:"Lista Bancos",icon:"🏦",cat:"DOCS"},
-{id:"feriados",name:"Feriados 2026",icon:"🎉",cat:"DOCS"},
-{id:"placa",name:"Placa Mercosul",icon:"🚗",cat:"DOCS"},
-{id:"imei",name:"IMEI",icon:"📱",cat:"DOCS"},
-{id:"card",name:"Cartão Luhn",icon:"💳",cat:"DOCS"},
-{id:"email",name:"Validador Email",icon:"📧",cat:"DOCS"},
-{id:"rg",name:"RG/PIS/CNH",icon:"📋",cat:"DOCS"},
-{id:"ip",name:"Meu IP",icon:"🌐",cat:"REDE"},
-{id:"dns",name:"DNS Google",icon:"🧠",cat:"REDE"},
-{id:"clima",name:"Clima Open-Meteo",icon:"🌤️",cat:"REDE"},
-{id:"short",name:"Encurtador is.gd",icon:"🔗",cat:"REDE"},
-{id:"ua",name:"User Agent",icon:"💻",cat:"REDE"},
-{id:"b64",name:"Base64 Encode/Decode",icon:"🔐",cat:"DEV"},
-{id:"json",name:"JSON Format",icon:"{ }",cat:"DEV"},
-{id:"hash",name:"SHA256",icon:"#️⃣",cat:"DEV"},
-{id:"jwt",name:"JWT Decoder",icon:"🎫",cat:"DEV"},
-{id:"regex",name:"Regex Tester",icon:"🔍",cat:"DEV"},
-{id:"url",name:"URL Encode",icon:"🔤",cat:"DEV"},
-{id:"html",name:"HTML Escape",icon:"<>",cat:"DEV"},
-{id:"uuid",name:"UUID v4",icon:"🆔",cat:"DEV"},
-{id:"color",name:"Color Picker",icon:"🎨",cat:"DEV"},
-{id:"qr",name:"QR Code",icon:"🔳",cat:"IMAGENS"},
-{id:"wifi",name:"WiFi QR",icon:"📶",cat:"IMAGENS"},
-{id:"imgbg",name:"Remover Fundo Branco",icon:"🎨",cat:"IMAGENS"},
-{id:"imgresize",name:"Redimensionar Imagem",icon:"↔️",cat:"IMAGENS"},
-{id:"imgformat",name:"Converter Imagem",icon:"🖼️",cat:"IMAGENS"},
-{id:"meme",name:"Gerador Meme",icon:"😂",cat:"IMAGENS"},
-{id:"palette",name:"Paleta Cores",icon:"🌈",cat:"IMAGENS"},
-{id:"gradient",name:"Gerador Gradiente",icon:"🌈",cat:"IMAGENS"},
-{id:"counter",name:"Contador Texto",icon:"📝",cat:"TEXTO"},
-{id:"case",name:"Case Converter",icon:"🔠",cat:"TEXTO"},
-{id:"pass",name:"Gerador Senha Forte",icon:"🔑",cat:"TEXTO"},
-{id:"lorem",name:"Lorem Ipsum",icon:"📖",cat:"TEXTO"},
-{id:"acento",name:"Remover Acentos",icon:"✍️",cat:"TEXTO"},
-{id:"trans",name:"Tradutor MyMemory",icon:"🌍",cat:"TEXTO"},
-{id:"tts",name:"Texto para Voz",icon:"🗣️",cat:"TEXTO"},
-{id:"stt",name:"Voz para Texto",icon:"🎤",cat:"TEXTO"},
-{id:"diff",name:"Diff Checker",icon:"📊",cat:"TEXTO"},
-{id:"dict",name:"Dicionário EN",icon:"📚",cat:"TEXTO"},
-{id:"curr",name:"Conversor Moeda",icon:"💱",cat:"MOEDA"},
-{id:"btc",name:"Bitcoin Preço",icon:"₿",cat:"MOEDA"},
-{id:"imc",name:"Calculadora IMC",icon:"⚖️",cat:"CALC"},
-{id:"pct",name:"Calculadora %",icon:"%",cat:"CALC"},
-{id:"timer",name:"Cronômetro",icon:"⏱️",cat:"CALC"},
-{id:"idade",name:"Calculadora Idade",icon:"🎂",cat:"CALC"},
-{id:"juros",name:"Juros Compostos",icon:"💰",cat:"CALC"},
-{id:"data",name:"Diferença Datas",icon:"📅",cat:"CALC"},
-{id:"temp",name:"Conversor Temperatura",icon:"🌡️",cat:"CALC"},
-{id:"length",name:"Conversor Comprimento",icon:"📏",cat:"CALC"},
-{id:"random",name:"Pessoa Fake RandomUser",icon:"👤",cat:"TEXTO"},
-{id:"minify",name:"Minificar CSS/JS",icon:"🗜️",cat:"DEV"},
-{id:"totp",name:"2FA Demo",icon:"🔒",cat:"DEV"},
-{id:"pdf1",name:"Juntar PDF (link)",icon:"📑",cat:"PDF"},
-{id:"pdf2",name:"Dividir PDF (link)",icon:"✂️",cat:"PDF"},
-{id:"pdf3",name:"PDF para Texto (demo)",icon:"📄",cat:"PDF"},
-{id:"bin",name:"Binário Converter",icon:"01",cat:"DEV"},
-{id:"md5demo",name:"MD5 Demo",icon:"🔒",cat:"DEV"},
+var isDark = false;
+function toggleTheme() {
+    isDark = !isDark;
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+}
+
+var tools = [
+    {id:"gov_receita", name:"Consulta CNPJ (Receita)", icon:"🏢", cat:"FEDERAL"},
+    {id:"gov_cep", name:"Consulta CEP (Correios)", icon:"📍", cat:"FEDERAL"},
+    {id:"gov_fgts", name:"Portal FGTS / Caixa", icon:"💰", cat:"FEDERAL"},
+    {id:"gov_meu_inss", name:"Meu INSS (Benefícios)", icon:"🛡️", cat:"FEDERAL"},
+    {id:"gov_govbr", name:"Conta Única Gov.br", icon:"🆔", cat:"FEDERAL"},
+    {id:"gov_esocial", name:"eSocial / Trabalhador", icon:"👷", cat:"FEDERAL"},
+    {id:"gov_carteira", name:"Carteira Digital Trânsito", icon:"🚗", cat:"FEDERAL"},
+    {id:"gov_bcb_ted", name:"Consultar Bancos (BACEN)", icon:"🏦", cat:"FEDERAL"},
+    {id:"gov_feriados", name:"Calendário Feriados Nacionais", icon:"🎉", cat:"FEDERAL"},
+    {id:"gov_transp", name:"Portal da Transparência", icon:"📊", cat:"FEDERAL"},
+    {id:"gov_sisutd", name:"Sisu e Prouni", icon:"🎓", cat:"FEDERAL"},
+    {id:"gov_sus", name:"Conecte SUS (Saúde)", icon:"💉", cat:"FEDERAL"},
+    {id:"gov_passaporte", name:"Emissão de Passaporte", icon:"🛂", cat:"FEDERAL"},
+    {id:"gov_titulo", name:"Título de Eleitor / TSE", icon:"🗳️", cat:"FEDERAL"},
+    {id:"gov_regular", name:"Regularidade CPF (Receita)", icon:"🪪", cat:"FEDERAL"}
 ];
-function render(list){
-var g=document.getElementById('grid');g.innerHTML='';
-for(var i=0;i<list.length;i++){
-var t=list[i];
-var d=document.createElement('div');d.className='card';
-d.innerHTML='<div style=font-size:16px>'+t.icon+'</div><b style=font-size:11px>'+t.name+'</b><br><span class=badge>'+t.cat+' • #'+(i+1)+'</span>';
-(function(tt){d.onclick=function(){abrir(tt);};})(t);
-g.appendChild(d);
+
+function render(list) {
+    var g = document.getElementById('grid');
+    g.innerHTML = '';
+    for(var i = 0; i < list.length; i++) {
+        var t = list[i];
+        var d = document.createElement('div');
+        d.className = 'card';
+        d.innerHTML = '<div class="card-top"><span class="card-icon">'+t.icon+'</span><span class="card-badge">'+t.cat+'</span></div><div class="card-title">'+t.name+'</div>';
+        (function(tt){ d.onclick = function(){ abrir(tt); }; })(t);
+        g.appendChild(d);
+    }
+    document.getElementById('cnt').textContent = list.length;
 }
-document.getElementById('cnt').textContent=list.length+' / 60';
+
+function filtrar() {
+    var q = document.getElementById('busca').value.toLowerCase();
+    var list = [];
+    for(var i = 0; i < tools.length; i++) {
+        if(tools[i].name.toLowerCase().indexOf(q) >= 0) list.push(tools[i]);
+    }
+    render(list);
 }
-function filtrar(){var q=document.getElementById('busca').value.toLowerCase();var list=[];for(var i=0;i<tools.length;i++){if(tools[i].name.toLowerCase().indexOf(q)>=0)list.push(tools[i]);}render(list);}
-function abrir(t){
-document.getElementById('grid').style.display='none';
-document.getElementById('panel').style.display='block';
-document.getElementById('ptitle').textContent=t.icon+' '+t.name;
-runTool(t.id);
-window.scrollTo(0,0);
+
+function abrir(t) {
+    document.getElementById('panel').style.display = 'block';
+    document.getElementById('ptitle').textContent = t.icon + ' ' + t.name;
+    runTool(t.id);
 }
-function runTool(id){
-var p=document.getElementById('pbody');
-if(id=='cpf'){
-p.innerHTML='<input id=cpfIn placeholder=000.000.000-00><button class=btn onclick=valCPF()>Validar CPF REAL</button> <button class="btn btn-sec" onclick=genCPF()>Gerar Válido REAL</button><div id=out style="margin-top:8px;padding:8px;border:1px solid var(--bd);border-radius:8px"></div>';
+
+function fecharPainel() {
+    document.getElementById('panel').style.display = 'none';
 }
-else if(id=='cnpj'){
-p.innerHTML='<input id=cnpjIn placeholder=00.000.000/0000-00><button class=btn onclick=valCNPJ()>Consultar BrasilAPI REAL</button><pre id=out style="margin-top:8px;white-space:pre-wrap;font-size:11px;padding:8px;border:1px solid var(--bd);border-radius:8px;max-height:250px;overflow:auto"></pre>';
+
+function runTool(id) {
+    var p = document.getElementById('pbody');
+    if(id == 'gov_receita') {
+        p.innerHTML = '<div class="section-label">Consulta por API Direta</div><input id=cnpjIn placeholder="Digite o CNPJ (só números)"><button class=btn onclick=valCNPJ()>Consultar Receita Federal</button><pre id=out class=output-box></pre>';
+    } else if(id == 'gov_cep') {
+        p.innerHTML = '<div class="section-label">Base Nacional Correios</div><input id=cepIn placeholder="Digite o CEP (só números)"><button class=btn onclick=valCEP()>Buscar Endereço</button><pre id=out class=output-box></pre>';
+    } else if(id == 'gov_bcb_ted') {
+        p.innerHTML = '<div class="section-label">Sistema de Pagamentos Brasil</div><button class=btn onclick=valBancos()>Listar Instituições Bancárias</button><pre id=out class=output-box style="max-height:250px; overflow:auto;"></pre>';
+    } else if(id == 'gov_feriados') {
+        p.innerHTML = '<div class="section-label">Feriados Oficiais 2026</div><button class=btn onclick=valFeriados()>Carregar Feriados Nacionais</button><pre id=out class=output-box></pre>';
+    } else {
+        var links = {
+            'gov_fgts': 'https://www.gov.br/pt-br/servicos/sacar-o-fgts',
+            'gov_meu_inss': 'https://meu.inss.gov.br/',
+            'gov_govbr': 'https://sso.acesso.gov.br/',
+            'gov_esocial': 'https://www.gov.br/esocial',
+            'gov_carteira': 'https://www.gov.br/pt-br/servicos/baixar-carteira-digital-de-transito',
+            'gov_transp': 'https://portaldatransparencia.gov.br/',
+            'gov_sisutd': 'https://acessounico.mec.gov.br/sisu',
+            'gov_sus': 'https://www.gov.br/saude/pt-br/acessodesus',
+            'gov_passaporte': 'https://www.gov.br/pf/pt-br/assuntos/passaporte',
+            'gov_titulo': 'https://www.tse.jus.br/',
+            'gov_regular': 'https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp'
+        };
+        var url = links[id] || 'https://www.gov.br';
+        p.innerHTML = '<div class="section-label">Acesso Direto ao Portal Oficial</div><p style="margin-top:8px; font-size:15px; color:var(--ios-subtext);">Este serviço governamental é executado com segurança no portal oficial do Governo Federal.</p><a href="'+url+'" target="_blank" class="btn" style="margin-top:20px;">Acessar Portal Oficial ↗</a>';
+    }
 }
-else if(id=='cep'){
-p.innerHTML='<input id=cepIn placeholder=01001-000><button class=btn onclick=valCEP()>Buscar ViaCEP REAL</button><pre id=out style="margin-top:8px;white-space:pre-wrap;font-size:11px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='ddd'){
-p.innerHTML='<input id=dddIn placeholder=DDD ex 11><button class=btn onclick=valDDD()>Consultar DDD REAL</button><pre id=out style="margin-top:8px;white-space:pre-wrap;font-size:11px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='bancos'){
-p.innerHTML='<button class=btn onclick=valBancos()>Listar Bancos REAL BrasilAPI</button><pre id=out style="margin-top:8px;white-space:pre-wrap;font-size:11px;padding:8px;border:1px solid var(--bd);border-radius:8px;max-height:250px;overflow:auto"></pre>';
-}
-else if(id=='feriados'){
-p.innerHTML='<button class=btn onclick=valFeriados()>Feriados 2026 REAL</button><pre id=out style="margin-top:8px;white-space:pre-wrap;font-size:11px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='ip'){
-p.innerHTML='<button class=btn onclick=valIP()>Ver Meu IP REAL</button><pre id=out style="margin-top:8px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='dns'){
-p.innerHTML='<input id=dnsIn placeholder=google.com><button class=btn onclick=valDNS()>Consultar DNS REAL Google</button><pre id=out style="margin-top:8px;white-space:pre-wrap;font-size:11px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='clima'){
-p.innerHTML='<div style=display:grid;grid-template-columns:1fr 1fr;gap:6px><input id=lat placeholder=Lat -23.55><input id=lon placeholder=Lon -46.63></div><button class=btn onclick=valClima()>Ver Clima REAL</button><pre id=out style="margin-top:8px;white-space:pre-wrap;font-size:11px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='short'){
-p.innerHTML='<input id=urlIn placeholder=https://...><button class=btn onclick=valShort()>Encurtar is.gd REAL</button><div id=out style="margin-top:8px;padding:8px;border:1px solid var(--bd);border-radius:8px"></div>';
-}
-else if(id=='ua'){
-p.innerHTML='<button class=btn onclick=document.getElementById("out").textContent=navigator.userAgent>Ver User Agent REAL</button><pre id=out style="margin-top:8px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='b64'){
-p.innerHTML='<textarea id=b64In placeholder=Texto></textarea><button class=btn onclick=document.getElementById("b64Out").value=btoa(unescape(encodeURIComponent(document.getElementById("b64In").value)))>Encode REAL</button> <button class="btn btn-sec" onclick="try{document.getElementById(&#39;b64Out&#39;).value=decodeURIComponent(escape(atob(document.getElementById(&#39;b64In&#39;).value)))}catch(e){document.getElementById(&#39;b64Out&#39;).value=&#39;Erro&#39;}">Decode REAL</button><textarea id=b64Out style="margin-top:6px"></textarea>';
-}
-else if(id=='json'){
-p.innerHTML='<textarea id=jsonIn placeholder={"a":1}></textarea><button class=btn onclick="try{document.getElementById(&#39;out&#39;).textContent=JSON.stringify(JSON.parse(document.getElementById(&#39;jsonIn&#39;).value),null,2)}catch(e){document.getElementById(&#39;out&#39;).textContent=&#39;Erro: &#39;+e}">Formatar JSON REAL</button><pre id=out style="margin-top:6px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='hash'){
-p.innerHTML='<input id=hashIn placeholder=Texto><button class=btn onclick=valHash()>Gerar SHA256 REAL</button><div id=out style="margin-top:6px;font-family:monospace;font-size:11px;word-break:break-all;padding:8px;border:1px solid var(--bd);border-radius:8px"></div>';
-}
-else if(id=='jwt'){
-p.innerHTML='<textarea id=jwtIn placeholder=eyJ...></textarea><button class=btn onclick=valJWT()>Decodificar JWT REAL</button><pre id=out style="margin-top:6px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='regex'){
-p.innerHTML='<input id=reIn placeholder=Regex ex \\d+><textarea id=txtIn placeholder=Texto></textarea><button class=btn onclick=valRegex()>Testar Regex REAL</button><pre id=out style="margin-top:6px;padding:8px;border:1px solid var(--bd);border-radius:8px"></pre>';
-}
-else if(id=='url'){
-p.innerHTML='<textarea id=urlIn></textarea><button class=btn onclick=document.getElementById("urlOut").value=encodeURIComponent(document.getElementById("urlIn").value)>Encode REAL</button> <button class="btn btn-sec" onclick="document.getElementById(&#39;urlOut&#39;).value=decodeURIComponent(document.getElementById(&#39;urlIn&#39;).value)">Decode REAL</button><textarea id=urlOut style="margin-top:6px"></textarea>';
-}
-else if(id=='html'){
-p.innerHTML='<textarea id=htmlIn></textarea><button class=btn onclick="document.getElementById(&#39;htmlOut&#39;).value=document.getElementById(&#39;htmlIn&#39;).value.replace(/&/g,&#39;&amp;&#39;).replace(/</g,&#39;&lt;&#39;).replace(/>/g,&#39;&gt;&#39;)">Escape REAL</button><textarea id=htmlOut style="margin-top:6px"></textarea>';
-}
-else if(id=='uuid'){
-p.innerHTML='<button class=btn onclick=document.getElementById("out").textContent=crypto.randomUUID()>Gerar UUID v4 REAL</button><div id=out style="margin-top:8px;font-family:monospace;padding:8px;border:1px solid var(--bd);border-radius:8px"></div>';
-}
-else if(id=='color'){
-p.innerHTML='<input type=color id=colorIn value=#7c3aed style=height:60px><div id=out style="margin-top:6px;padding:8px;border:1px solid var(--bd);border-radius:8px">HEX: #7c3aed</div>';document.getElementById('colorIn').oninput=function(){document.getElementById('out').textContent='HEX: '+this.value;};
-}
-else if(id=='qr'){
-p.innerHTML='<input id=qrIn placeholder=Texto ou link><button class=btn onclick=genQR()>Gerar QR (demo visual)</button><canvas id=c width=220 height=220 style=border:1px solid var(--bd);border-radius:10px;margin-top:8px></canvas><div id=out></div>';
-}
-else if(id=='wifi'){
-p.innerHTML='<input id=ssid placeholder=Nome WiFi><input id=pass placeholder=Senha><button class=btn onclick=document.getElementById("out").textContent="WIFI:S:"+document.getElementById("ssid").value+";T:WPA;P:"+document.getElementById("pass").value+";;">Gerar String WiFi REAL</button><div id=out style="margin-top:8px;word-break:break-all;padding:8px;border:1px solid var(--bd);border-radius:8px"></div>';
-}
-else if(id=='imgbg'){
-p.innerHTML='<input type=file id=fileIn accept=image/*><canvas id=c style=max-width:100%;margin-top:8px;border:1px solid var(--bd);border-radius:10px></canvas><br><button class=btn onclick=removeBG()>Remover Fundo Branco REAL</button>';document.getElementById('fileIn').onchange=function(e){var img=new Image();img.onload=function(){var c=document.getElementById('c');c.width=img.width;c.height=img.height;c.getContext('2d').drawImage(img,0,0);};img.src=URL.createObjectURL(e.target.files[0]);};
-}
-else if(id=='imgresize'){
-p.innerHTML='<input type=file id=fileIn accept=image/*><div style=display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px><input id=w placeholder=Largura><input id=h placeholder=Altura></div><canvas id=c style=max-width:100%;margin-top:8px;border:1px solid var(--bd);border-radius:10px></canvas><br><button class=btn onclick="var c=document.getElementById(&#39;c&#39;);var a=document.createElement(&#39;a&#39;);a.download=&#39;resize.png&#39;;a.href=c.toDataURL();a.click()">Baixar REAL</button>';document.getElementById('fileIn').onchange=function(e){var img=new Image();img.onload=function(){var c=document.getElementById('c');var ww=parseInt(document.getElementById('w').value)||img.width;var hh=parseInt(document.getElementById('h').value)||img.height;c.width=ww;c.height=hh;c.getContext('2d').drawImage(img,0,0,ww,hh);};img.src=URL.createObjectURL(e.target.files[0]);};
-}
-else if(id=='counter'){
-p.innerHTML='<textarea id=cntIn placeholder=Digite texto...></textarea><div id=out style=margin-top:6px;padding:8px;border:1px solid var(--bd);border-radius:8px></div>';document.getElementById('cntIn').oninput=function(){var v=this.value;document.getElementById('out').innerHTML='Chars: '+v.length+'<br>Palavras: '+v.trim().split(/\s+/).filter(Boolean).length;};
-}
-else if(id=='case'){
-p.innerHTML='<textarea id=caseIn></textarea><button class=btn onclick=document.getElementById("caseOut").value=document.getElementById("caseIn").value.toUpperCase()>UPPER REAL</button> <button class="btn btn-sec" onclick="document.getElementById(&#39;caseOut&#39;).value=document.getElementById(&#39;caseIn&#39;).value.toLowerCase()">lower REAL</button><textarea id=caseOut style="margin-top:6px"></textarea>';
-}
-else if(id=='pass'){
-p.innerHTML='<button class=btn onclick=genPass()>Gerar Senha Forte REAL 16 chars</button><div id=out style="margin-top:8px;font-family:monospace;padding:8px;border:1px solid var(--bd);border-radius:8px"></div>';
-}
-else if(id=='imc'){
-p.innerHTML='<div style=display:grid;grid-template-columns:1fr 1fr;gap:6px><input id=peso placeholder=Peso kg><input id=altura placeholder=Altura m ex 1.75></div><button class=btn onclick=calcIMC()>Calcular IMC REAL</button><div id=out style="margin-top:6px;padding:8px;border:1px solid var(--bd);border-radius:8px"></div>';
-}
-else{
-p.innerHTML='<div style=padding:10px;border:1px solid var(--bd);border-radius:10px"><b>'+id+'</b> - Funcionalidade em desenvolvimento, mas estrutura das 60 funcionando.<br><br>As principais já funcionam 100% REAL.</div>';
-}
-}
-function valCPF(){
-var v=document.getElementById('cpfIn').value.replace(/\D/g,'');
-var out=document.getElementById('out');
-if(v.length!=11){out.textContent='11 dígitos';return}
-var s=0;for(var i=0;i<9;i++)s+=parseInt(v[i])*(10-i);
-var d1=11-s%11;if(d1>9)d1=0;
-s=0;for(var i=0;i<10;i++)s+=parseInt(v[i])*(11-i);
-var d2=11-s%11;if(d2>9)d2=0;
-out.innerHTML=(d1==v[9]&&d2==v[10]?'<span style=color:green>✅ CPF VÁLIDO</span>':'<span style=color:red>❌ CPF INVÁLIDO</span>')+' - '+v;
-}
-function genCPF(){
-var n=[];for(var i=0;i<9;i++)n.push(Math.floor(Math.random()*9));
-var s=0;for(var i=0;i<9;i++)s+=n[i]*(10-i);var d1=11-s%11;if(d1>9)d1=0;n.push(d1);
-s=0;for(var i=0;i<10;i++)s+=n[i]*(11-i);var d2=11-s%11;if(d2>9)d2=0;n.push(d2);
-document.getElementById('cpfIn').value=n.join('');valCPF();
-}
+
 async function valCNPJ(){
-var v=document.getElementById('cnpjIn').value.replace(/\D/g,'');
-var out=document.getElementById('out');
-out.textContent='Consultando BrasilAPI...';
-try{var r=await fetch('https://brasilapi.com.br/api/cnpj/v1/'+v);var j=await r.json();out.textContent=JSON.stringify(j,null,2);}catch(e){out.textContent='Erro: '+e}
+    var v = document.getElementById('cnpjIn').value.replace(/\D/g,'');
+    var out = document.getElementById('out');
+    out.textContent = 'Consultando base da Receita Federal...';
+    try {
+        var r = await fetch('https://brasilapi.com.br/api/cnpj/v1/' + v);
+        var j = await r.json();
+        out.textContent = JSON.stringify(j, null, 2);
+    } catch(e) {
+        out.textContent = 'Erro ao consultar CNPJ.';
+    }
 }
+
 async function valCEP(){
-var v=document.getElementById('cepIn').value.replace(/\D/g,'');
-var out=document.getElementById('out');
-out.textContent='Buscando ViaCEP...';
-try{var r=await fetch('https://viacep.com.br/ws/'+v+'/json/');var j=await r.json();out.textContent=JSON.stringify(j,null,2);}catch(e){out.textContent='Erro CEP'}
+    var v = document.getElementById('cepIn').value.replace(/\D/g,'');
+    var out = document.getElementById('out');
+    out.textContent = 'Buscando nos Correios...';
+    try {
+        var r = await fetch('https://viacep.com.br/ws/' + v + '/json/');
+        var j = await r.json();
+        out.textContent = JSON.stringify(j, null, 2);
+    } catch(e) {
+        out.textContent = 'Erro ao buscar CEP.';
+    }
 }
-async function valDDD(){
-var v=document.getElementById('dddIn').value;
-var out=document.getElementById('out');
-out.textContent='Consultando...';
-try{var r=await fetch('https://brasilapi.com.br/api/ddd/v1/'+v);var j=await r.json();out.textContent=JSON.stringify(j,null,2);}catch(e){out.textContent='Erro'}
-}
+
 async function valBancos(){
-var out=document.getElementById('out');
-out.textContent='Listando...';
-try{var r=await fetch('https://brasilapi.com.br/api/banks/v1');var j=await r.json();out.textContent=JSON.stringify(j.slice(0,20),null,2)+'\n... total '+j.length+' bancos';}catch(e){out.textContent='Erro'}
+    var out = document.getElementById('out');
+    out.textContent = 'Carregando lista do Banco Central...';
+    try {
+        var r = await fetch('https://brasilapi.com.br/api/banks/v1');
+        var j = await r.json();
+        out.textContent = JSON.stringify(j.slice(0, 15), null, 2) + '\n\n... total de ' + j.length + ' instituições.';
+    } catch(e) {
+        out.textContent = 'Erro ao carregar bancos.';
+    }
 }
+
 async function valFeriados(){
-var out=document.getElementById('out');
-out.textContent='Buscando...';
-try{var r=await fetch('https://brasilapi.com.br/api/feriados/v1/2026');var j=await r.json();out.textContent=JSON.stringify(j,null,2);}catch(e){out.textContent='Erro'}
+    var out = document.getElementById('out');
+    out.textContent = 'Buscando feriados...';
+    try {
+        var r = await fetch('https://brasilapi.com.br/api/feriados/v1/2026');
+        var j = await r.json();
+        out.textContent = JSON.stringify(j, null, 2);
+    } catch(e) {
+        out.textContent = 'Erro ao carregar feriados.';
+    }
 }
-async function valIP(){
-var out=document.getElementById('out');
-out.textContent='Buscando IP...';
-try{var r=await fetch('https://api.ipify.org?format=json');var j=await r.json();out.textContent='IP: '+j.ip;}catch(e){out.textContent='Erro IP'}
-}
-async function valDNS(){
-var v=document.getElementById('dnsIn').value;
-var out=document.getElementById('out');
-out.textContent='Consultando DNS...';
-try{var r=await fetch('https://dns.google/resolve?name='+v);var j=await r.json();out.textContent=JSON.stringify(j,null,2);}catch(e){out.textContent='Erro DNS'}
-}
-async function valClima(){
-var lat=document.getElementById('lat').value||'-23.55';
-var lon=document.getElementById('lon').value||'-46.63';
-var out=document.getElementById('out');
-out.textContent='Buscando clima...';
-try{var r=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current_weather=true');var j=await r.json();out.textContent=JSON.stringify(j,null,2);}catch(e){out.textContent='Erro clima'}
-}
-async function valShort(){
-var v=document.getElementById('urlIn').value;
-var out=document.getElementById('out');
-out.textContent='Encurtando...';
-try{var r=await fetch('https://is.gd/create.php?format=json&url='+encodeURIComponent(v));var j=await r.json();out.textContent=j.shorturl||JSON.stringify(j);}catch(e){out.textContent='Erro'}
-}
-async function valHash(){
-var v=document.getElementById('hashIn').value;
-var out=document.getElementById('out');
-var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v));
-var arr=Array.from(new Uint8Array(buf));
-var hex=arr.map(function(b){return b.toString(16).padStart(2,'0');}).join('');
-out.textContent=hex;
-}
-function valJWT(){
-var v=document.getElementById('jwtIn').value;
-var out=document.getElementById('out');
-try{var p=v.split('.');out.textContent='Header: '+atob(p[0])+'\nPayload: '+atob(p[1]);}catch(e){out.textContent='JWT inválido'}
-}
-function valRegex(){
-var re=document.getElementById('reIn').value;
-var txt=document.getElementById('txtIn').value;
-var out=document.getElementById('out');
-try{var r=new RegExp(re,'g');var m=txt.match(r);out.textContent=(m||[]).join('\n')||'Nenhum match';}catch(e){out.textContent='Erro regex'}
-}
-function genQR(){
-var v=document.getElementById('qrIn').value;
-var c=document.getElementById('c');
-var ctx=c.getContext('2d');
-ctx.fillStyle='white';ctx.fillRect(0,0,220,220);
-ctx.fillStyle='black';ctx.fillRect(10,10,200,200);
-ctx.fillStyle='white';ctx.fillRect(20,20,40,40);ctx.fillRect(120,20,40,40);ctx.fillRect(20,120,40,40);
-document.getElementById('out').textContent='QR para: '+v;
-}
-function removeBG(){
-var c=document.getElementById('c');
-var ctx=c.getContext('2d');
-var d=ctx.getImageData(0,0,c.width,c.height);
-for(var i=0;i<d.data.length;i+=4){
-if(d.data[i]>200&&d.data[i+1]>200&&d.data[i+2]>200){
-d.data[i+3]=0;
-}
-}
-ctx.putImageData(d,0,0);
-}
-function genPass(){
-var chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#';
-var s='';for(var i=0;i<16;i++)s+=chars[Math.floor(Math.random()*chars.length)];
-document.getElementById('out').textContent=s;
-}
-function calcIMC(){
-var p=parseFloat(document.getElementById('peso').value);
-var a=parseFloat(document.getElementById('altura').value);
-var imc=p/(a*a);
-var cls=imc<18.5?'Abaixo':imc<25?'Normal':imc<30?'Sobrepeso':'Obesidade';
-document.getElementById('out').textContent='IMC: '+imc.toFixed(2)+' - '+cls;
-}
+
 render(tools);
-</script></body></html>
+</script>
+</body>
+</html>
