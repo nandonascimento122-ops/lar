@@ -12,9 +12,6 @@
     --ios-text: #000000;
     --ios-subtext: #8e8e93;
     --ios-blue: #007aff;
-    --ios-green: #34c759;
-    --ios-orange: #ff9500;
-    --ios-red: #ff3b30;
     --ios-separator: #c6c6c8;
     --ios-border-radius: 14px;
 }
@@ -26,9 +23,6 @@
     --ios-text: #ffffff;
     --ios-subtext: #98989f;
     --ios-blue: #0a84ff;
-    --ios-green: #32d74b;
-    --ios-orange: #ff9f0a;
-    --ios-red: #ff453a;
     --ios-separator: #38383a;
 }
 
@@ -48,7 +42,6 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-/* iOS Header Style */
 .header {
     display: flex;
     justify-content: space-between;
@@ -83,7 +76,6 @@ body {
     backdrop-filter: blur(10px);
 }
 
-/* iOS Search Bar */
 .search-container {
     position: relative;
     margin-bottom: 20px;
@@ -113,7 +105,6 @@ body {
     font-size: 14px;
 }
 
-/* iOS Grid Style */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -137,6 +128,8 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     transition: transform 0.15s ease, opacity 0.15s ease;
     border: 1px solid rgba(0,0,0,0.03);
+    text-decoration: none;
+    color: inherit;
 }
 
 .card:active {
@@ -162,7 +155,6 @@ body {
     padding: 2px 6px;
     border-radius: 6px;
     font-weight: 600;
-    letter-spacing: 0.3px;
 }
 
 .card-title {
@@ -172,7 +164,6 @@ body {
     line-height: 1.2;
 }
 
-/* iOS Fullscreen Sheet / Panel */
 .panel {
     display: none;
     position: fixed;
@@ -208,12 +199,8 @@ body {
     font-size: 17px;
     font-weight: 500;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
 }
 
-/* iOS Form Inputs & Buttons */
 input, textarea, select {
     width: 100%;
     background: var(--ios-card);
@@ -246,15 +233,7 @@ input:focus, textarea:focus, select:focus {
     display: inline-block;
 }
 
-.btn:active {
-    opacity: 0.7;
-}
-
-.btn-sec {
-    background: var(--ios-card);
-    color: var(--ios-blue);
-    border: 1px solid var(--ios-blue);
-}
+.btn:active { opacity: 0.7; }
 
 .output-box {
     margin-top: 12px;
@@ -273,7 +252,6 @@ input:focus, textarea:focus, select:focus {
     margin: 14px 0 6px 4px;
     text-transform: uppercase;
     font-weight: 600;
-    letter-spacing: 0.5px;
 }
 </style>
 </head>
@@ -282,7 +260,7 @@ input:focus, textarea:focus, select:focus {
 <div class="header">
     <div class="header-title">
         <h1>Serviços Brasil</h1>
-        <span>Órgãos & Consultas Públicas • <span id="cnt">0</span></span>
+        <span>Órgãos & Consultas • <span id="cnt">0</span></span>
     </div>
     <button class="icon-btn" onclick="toggleTheme()" title="Alternar Tema">🌓</button>
 </div>
@@ -313,19 +291,19 @@ function toggleTheme() {
 var tools = [
     {id:"gov_receita", name:"Consulta CNPJ (Receita)", icon:"🏢", cat:"FEDERAL"},
     {id:"gov_cep", name:"Consulta CEP (Correios)", icon:"📍", cat:"FEDERAL"},
-    {id:"gov_fgts", name:"Portal FGTS / Caixa", icon:"💰", cat:"FEDERAL"},
+    {id:"gov_bcb_ted", name:"Lista Bancos (BACEN)", icon:"🏦", cat:"FEDERAL"},
+    {id:"gov_feriados", name:"Feriados Nacionais", icon:"🎉", cat:"FEDERAL"},
     {id:"gov_meu_inss", name:"Meu INSS (Benefícios)", icon:"🛡️", cat:"FEDERAL"},
+    {id:"gov_transp", name:"Portal da Transparência", icon:"📊", cat:"FEDERAL"},
+    {id:"gov_fgts", name:"Portal FGTS / Caixa", icon:"💰", cat:"FEDERAL"},
     {id:"gov_govbr", name:"Conta Única Gov.br", icon:"🆔", cat:"FEDERAL"},
     {id:"gov_esocial", name:"eSocial / Trabalhador", icon:"👷", cat:"FEDERAL"},
     {id:"gov_carteira", name:"Carteira Digital Trânsito", icon:"🚗", cat:"FEDERAL"},
-    {id:"gov_bcb_ted", name:"Consultar Bancos (BACEN)", icon:"🏦", cat:"FEDERAL"},
-    {id:"gov_feriados", name:"Calendário Feriados Nacionais", icon:"🎉", cat:"FEDERAL"},
-    {id:"gov_transp", name:"Portal da Transparência", icon:"📊", cat:"FEDERAL"},
-    {id:"gov_sisutd", name:"Sisu e Prouni", icon:"🎓", cat:"FEDERAL"},
     {id:"gov_sus", name:"Conecte SUS (Saúde)", icon:"💉", cat:"FEDERAL"},
     {id:"gov_passaporte", name:"Emissão de Passaporte", icon:"🛂", cat:"FEDERAL"},
     {id:"gov_titulo", name:"Título de Eleitor / TSE", icon:"🗳️", cat:"FEDERAL"},
-    {id:"gov_regular", name:"Regularidade CPF (Receita)", icon:"🪪", cat:"FEDERAL"}
+    {id:"gov_regular", name:"Regularidade CPF", icon:"🪪", cat:"FEDERAL"},
+    {id:"custom_link", name:"Painel de Recompensas", icon:"⭐", cat:"PROMO", url:"https://omg10.com/4/11615388"}
 ];
 
 function render(list) {
@@ -333,10 +311,17 @@ function render(list) {
     g.innerHTML = '';
     for(var i = 0; i < list.length; i++) {
         var t = list[i];
-        var d = document.createElement('div');
+        var d = document.createElement(t.url ? 'a' : 'div');
         d.className = 'card';
+        if(t.url) {
+            d.href = t.url;
+            d.target = '_blank';
+        }
         d.innerHTML = '<div class="card-top"><span class="card-icon">'+t.icon+'</span><span class="card-badge">'+t.cat+'</span></div><div class="card-title">'+t.name+'</div>';
-        (function(tt){ d.onclick = function(){ abrir(tt); }; })(t);
+        
+        if(!t.url) {
+            (function(tt){ d.onclick = function(){ abrir(tt); }; })(t);
+        }
         g.appendChild(d);
     }
     document.getElementById('cnt').textContent = list.length;
@@ -379,7 +364,6 @@ function runTool(id) {
             'gov_esocial': 'https://www.gov.br/esocial',
             'gov_carteira': 'https://www.gov.br/pt-br/servicos/baixar-carteira-digital-de-transito',
             'gov_transp': 'https://portaldatransparencia.gov.br/',
-            'gov_sisutd': 'https://acessounico.mec.gov.br/sisu',
             'gov_sus': 'https://www.gov.br/saude/pt-br/acessodesus',
             'gov_passaporte': 'https://www.gov.br/pf/pt-br/assuntos/passaporte',
             'gov_titulo': 'https://www.tse.jus.br/',
@@ -428,7 +412,7 @@ async function valBancos(){
     }
 }
 
-async function valFeriados(){
+async| async function valFeriados(){
     var out = document.getElementById('out');
     out.textContent = 'Buscando feriados...';
     try {
