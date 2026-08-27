@@ -62,6 +62,12 @@ body {
     font-weight: 400;
 }
 
+.header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
 .icon-btn {
     background: rgba(var(--ios-card-rgb), 0.8);
     border: 1px solid var(--ios-separator);
@@ -72,6 +78,18 @@ body {
     display: grid;
     place-items: center;
     font-size: 16px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+}
+
+.lang-select {
+    background: rgba(var(--ios-card-rgb), 0.8);
+    border: 1px solid var(--ios-separator);
+    color: var(--ios-text);
+    height: 36px;
+    border-radius: 18px;
+    padding: 0 10px;
+    font-size: 14px;
     cursor: pointer;
     backdrop-filter: blur(10px);
 }
@@ -105,15 +123,34 @@ body {
     font-size: 14px;
 }
 
+/* Layout com Lateral Direita */
+.sidebar-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media(min-width: 992px) {
+    .sidebar-layout {
+        grid-template-columns: 1fr 300px;
+    }
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
 }
 
-@media(min-width: 768px) {
+@media(min-width: 768px) and (max-width: 991px) {
     .grid {
         grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media(min-width: 992px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -162,6 +199,31 @@ body {
     font-weight: 600;
     letter-spacing: -0.2px;
     line-height: 1.2;
+}
+
+/* Estilo do Bloco da Lateral Direita (Anúncio) */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ad-card {
+    background: var(--ios-card);
+    border-radius: var(--ios-border-radius);
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.03);
+    text-align: center;
+}
+
+.ad-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--ios-subtext);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .panel {
@@ -259,10 +321,17 @@ input:focus, textarea:focus, select:focus {
 
 <div class="header">
     <div class="header-title">
-        <h1>Serviços Brasil</h1>
-        <span>Órgãos & Consultas • <span id="cnt">0</span></span>
+        <h1 id="lbl-title">Serviços Brasil</h1>
+        <span><span id="lbl-subtitle">Órgãos & Consultas</span> • <span id="cnt">0</span></span>
     </div>
-    <button class="icon-btn" onclick="toggleTheme()" title="Alternar Tema">🌓</button>
+    <div class="header-actions">
+        <select id="langSelect" class="lang-select" onchange="mudarIdioma(this.value)">
+            <option value="pt">🇧🇷 PT</option>
+            <option value="en">🇺🇸 EN</option>
+            <option value="es">🇪🇸 ES</option>
+        </select>
+        <button class="icon-btn" onclick="toggleTheme()" title="Alternar Tema">🌓</button>
+    </div>
 </div>
 
 <div class="search-container">
@@ -270,11 +339,23 @@ input:focus, textarea:focus, select:focus {
     <input type="text" id="busca" class="search-bar" placeholder="Buscar serviço público..." oninput="filtrar()">
 </div>
 
-<div class="grid" id="grid"></div>
+<!-- Layout Principal com Grade e Lateral Direita -->
+<div class="sidebar-layout">
+    <div class="grid" id="grid"></div>
+    
+    <aside class="sidebar">
+        <div class="ad-card">
+            <h3 id="lbl-sponsored">Patrocinado</h3>
+            <div id="ad-container-11615324">
+                <a href="https://omg10.com/4/11615388" target="_blank" class="btn" style="font-size: 14px; padding: 10px;" id="lbl-ad-btn">Acessar Destaque ⭐</a>
+            </div>
+        </div>
+    </aside>
+</div>
 
 <div class="panel" id="panel">
     <div class="panel-header">
-        <button class="back-btn" onclick="fecharPainel()">‹ Voltar</button>
+        <button class="back-btn" onclick="fecharPainel()" id="lbl-back">‹ Voltar</button>
         <div class="panel-title" id="ptitle" style="font-size: 16px; font-weight: 600;"></div>
         <div style="width: 50px;"></div>
     </div>
@@ -287,6 +368,44 @@ function toggleTheme() {
     isDark = !isDark;
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
 }
+
+var currentLang = 'pt';
+
+var translations = {
+    pt: {
+        title: "Serviços Brasil",
+        subtitle: "Órgãos & Consultas",
+        searchPlaceholder: "Buscar serviço público...",
+        sponsored: "Patrocinado",
+        adBtn: "Acessar Destaque ⭐",
+        back: "‹ Voltar",
+        officialAccess: "Acesso Direto ao Portal Oficial",
+        officialDesc: "Este serviço governamental é executado com segurança no portal oficial do Governo Federal.",
+        officialBtn: "Acessar Portal Oficial ↗"
+    },
+    en: {
+        title: "Brazil Services",
+        subtitle: "Agencies & Queries",
+        searchPlaceholder: "Search public service...",
+        sponsored: "Sponsored",
+        adBtn: "Access Featured ⭐",
+        back: "‹ Back",
+        officialAccess: "Direct Access to Official Portal",
+        officialDesc: "This government service is securely executed on the official Federal Government portal.",
+        officialBtn: "Access Official Portal ↗"
+    },
+    es: {
+        title: "Servicios Brasil",
+        subtitle: "Órganos y Consultas",
+        searchPlaceholder: "Buscar servicio público...",
+        sponsored: "Patrocinado",
+        adBtn: "Acceso Destacado ⭐",
+        back: "‹ Volver",
+        officialAccess: "Acceso Directo al Portal Oficial",
+        officialDesc: "Este servicio gubernamental se ejecuta de forma segura en el portal oficial del Gobierno Federal.",
+        officialBtn: "Acceder al Portal Oficial ↗"
+    }
+};
 
 var tools = [
     {id:"gov_receita", name:"Consulta CNPJ (Receita)", icon:"🏢", cat:"FEDERAL"},
@@ -303,8 +422,23 @@ var tools = [
     {id:"gov_passaporte", name:"Emissão de Passaporte", icon:"🛂", cat:"FEDERAL"},
     {id:"gov_titulo", name:"Título de Eleitor / TSE", icon:"🗳️", cat:"FEDERAL"},
     {id:"gov_regular", name:"Regularidade CPF", icon:"🪪", cat:"FEDERAL"},
+    {id:"gov_certidao", name:"Certidão Antecedentes Criminais", icon:"📜", cat:"FEDERAL"},
+    {id:"gov_carteira_trabalho", name:"Carteira de Trabalho Digital", icon:"📖", cat:"FEDERAL"},
+    {id:"gov_enem", name:"Portal do INEP / ENEM", icon:"📚", cat:"FEDERAL"},
+    {id:"gov_ibge", name:"IBGE - Dados do Brasil", icon:"📈", cat:"FEDERAL"},
     {id:"custom_link", name:"Painel de Recompensas", icon:"⭐", cat:"PROMO", url:"https://omg10.com/4/11615388"}
 ];
+
+function mudarIdioma(lang) {
+    currentLang = lang;
+    document.getElementById('lbl-title').textContent = translations[lang].title;
+    document.getElementById('lbl-subtitle').textContent = translations[lang].subtitle;
+    document.getElementById('busca').placeholder = translations[lang].searchPlaceholder;
+    document.getElementById('lbl-sponsored').textContent = translations[lang].sponsored;
+    document.getElementById('lbl-ad-btn').textContent = translations[lang].adBtn;
+    document.getElementById('lbl-back').textContent = translations[lang].back;
+    render(tools);
+}
 
 function render(list) {
     var g = document.getElementById('grid');
@@ -367,10 +501,15 @@ function runTool(id) {
             'gov_sus': 'https://www.gov.br/saude/pt-br/acessodesus',
             'gov_passaporte': 'https://www.gov.br/pf/pt-br/assuntos/passaporte',
             'gov_titulo': 'https://www.tse.jus.br/',
-            'gov_regular': 'https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp'
+            'gov_regular': 'https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp',
+            'gov_certidao': 'https://www.gov.br/pf/pt-br/assuntos/antecedentes-criminais',
+            'gov_carteira_trabalho': 'https://www.gov.br/pt-br/servicos/obter-a-carteira-de-trabalho-digital',
+            'gov_enem': 'https://enem.inep.gov.br/',
+            'gov_ibge': 'https://www.ibge.gov.br/'
         };
         var url = links[id] || 'https://www.gov.br';
-        p.innerHTML = '<div class="section-label">Acesso Direto ao Portal Oficial</div><p style="margin-top:8px; font-size:15px; color:var(--ios-subtext);">Este serviço governamental é executado com segurança no portal oficial do Governo Federal.</p><a href="'+url+'" target="_blank" class="btn" style="margin-top:20px;">Acessar Portal Oficial ↗</a>';
+        var tObj = translations[currentLang];
+        p.innerHTML = '<div class="section-label">'+tObj.officialAccess+'</div><p style="margin-top:8px; font-size:15px; color:var(--ios-subtext);">'+tObj.officialDesc+'</p><a href="'+url+'" target="_blank" class="btn" style="margin-top:20px;">'+tObj.officialBtn+'</a>';
     }
 }
 
@@ -392,7 +531,7 @@ async function valCEP(){
     var out = document.getElementById('out');
     out.textContent = 'Buscando nos Correios...';
     try {
-        var r = await fetch('https://viacep.com.br/ws/' + v + '/json/');
+        var r = await fetch('https://viacep.com.br/ws/' + v + '/json/';
         var j = await r.json();
         out.textContent = JSON.stringify(j, null, 2);
     } catch(e) {
@@ -412,7 +551,7 @@ async function valBancos(){
     }
 }
 
-async| async function valFeriados(){
+async function valFeriados(){
     var out = document.getElementById('out');
     out.textContent = 'Buscando feriados...';
     try {
